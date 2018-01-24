@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "jquery": "^3.2.1",
+    "draft-js": "^0.10.5",
+    "draft-js-export-html": "^1.2.0",
+    "draft-js-import-html": "^1.2.1",
+    "draft-js-inline-toolbar-plugin": "^2.0.1",
+    "draft-js-plugins-editor": "^2.0.4",
     "react": "^16.2.0",
-    "react-dnd": "^2.5.4",
-    "react-dnd-html5-backend": "^2.5.4",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.0",
     "uuid": "^3.2.1"
