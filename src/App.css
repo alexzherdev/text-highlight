@@ -1,31 +1,6 @@
-.App {
-  text-align: center;
-  margin-top: 100px;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+p span, p span span {
+  display: inline-block;
+  line-height: 1.6;
 }
 
 .container {
@@ -33,5 +8,21 @@
 }
 
 .highlight {
-  background: yellow;
+  background: #fff7b6;
+  position: relative;
+}
+
+.active {
+  border-bottom: 3px solid #e4a735;
+}
+
+.highlight-icon .nonactive:after {
+  content: url(logo.svg);
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  z-index: 1;
 }
