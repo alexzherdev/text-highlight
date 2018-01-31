@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
 
 class Marker extends React.Component {
@@ -92,14 +93,9 @@ export default class HighlightExample extends React.Component {
     const els = document.querySelectorAll('.area .highlight');
 
     els.forEach((el) => {
-      const marker = el.querySelector('.highlight-inner');
-      const content = marker ? marker.innerHTML : el.innerHTML;
-      ReactDOM.render(
-        <Marker
-          active={el.dataset.ref === this.state.selected}
-          onClick={this.handleMarkerClick.bind(this, el.dataset.ref)}>
-          {content}
-        </Marker>, el);
+      $(el).toggleClass('active', el.dataset.ref === this.state.selected);
+      $(el).toggleClass('nonactive', el.dataset.ref !== this.state.selected);
+      $(el).off('click').on('click', this.handleMarkerClick.bind(this, el.dataset.ref));
     });
   }
 

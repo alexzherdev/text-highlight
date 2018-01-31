@@ -16,7 +16,7 @@ p span, p span span {
   border-bottom: 3px solid #e4a735;
 }
 
-.highlight-icon .nonactive:after {
+.highlight-icon.nonactive:after {
   content: url(logo.svg);
   width: 20px;
   height: 20px;
