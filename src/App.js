@@ -9,6 +9,9 @@ class App extends Component {
     return (
       <div className="App">
         <HighlightExample />
+        <div>
+          other contents not in the highlight example
+        </div>
       </div>
     );
   }

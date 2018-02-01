@@ -26,3 +26,7 @@ p span, p span span {
   right: -10px;
   z-index: 1;
 }
+
+.highlight:hover {
+  background: #fff000;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import rangy from 'rangy';
 
 
 class Marker extends React.Component {
@@ -17,7 +18,39 @@ class Marker extends React.Component {
 
 let nextId = 1;
 
-export default class HighlightExample extends React.Component {
+class SelectionDetector extends React.Component {
+  handleSelectionChange = () => {
+    const selection = rangy.getSelection();
+    if (selection.rangeCount > 0) {
+      const selRange = selection.getRangeAt(0);
+      const containerRange = rangy.createRange();
+      containerRange.selectNode(this.container);
+      if (containerRange.containsRange(selRange)) {
+        this.props.onSelectionChange(selection);
+      } else {
+        console.log('skipped');
+      }
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener('selectionchange', this.handleSelectionChange);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('selectionchange', this.handleSelectionChange);
+  }
+
+  render() {
+    return (
+      <div ref={(r) => this.container = r}>
+        {this.props.children}
+      </div>
+    );
+  }
+}
+
+class HighlightExample extends React.Component {
   state = {
     selected: null,
     html: ''
@@ -31,11 +64,8 @@ export default class HighlightExample extends React.Component {
     this.setMarkers();
   }
 
-  unmountMarkers() {
-    const els = document.querySelectorAll('.area .highlight');
-    els.forEach((el) => {
-      ReactDOM.unmountComponentAtNode(el);
-    });
+  handleSelectionChange = (sel) => {
+    console.log('selchange', sel)
   }
 
   handleMarkerClick = (ref) => {
@@ -100,7 +130,6 @@ export default class HighlightExample extends React.Component {
   }
 
   replaceContents(newContents) {
-    this.unmountMarkers();
     this.setState({ html: newContents });
   }
 
@@ -119,8 +148,10 @@ export default class HighlightExample extends React.Component {
   render() {
     return (
       <div>
-        <div className="area" ref={(el) => this.div = el} dangerouslySetInnerHTML={{__html: this.state.html}}>
-        </div>
+        <SelectionDetector onSelectionChange={this.handleSelectionChange}>
+          <div className="area" ref={(el) => this.div = el} dangerouslySetInnerHTML={{__html: this.state.html}}>
+          </div>
+        </SelectionDetector>
         <button onClick={this.handleClear}>Clear</button>
         <button onClick={this.handleHighlight}>Highlight</button>
         <button onClick={this.handleCopyFromEditor}>Copy from editor</button>
@@ -132,3 +163,5 @@ export default class HighlightExample extends React.Component {
     );
   }
 }
+
+export default HighlightExample;
