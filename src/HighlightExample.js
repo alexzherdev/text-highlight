@@ -25,11 +25,13 @@ class SelectionDetector extends React.Component {
       const selRange = selection.getRangeAt(0);
       const containerRange = rangy.createRange();
       containerRange.selectNode(this.container);
-      if (containerRange.containsRange(selRange)) {
+      if (containerRange.containsRange(selRange) && !selRange.collapsed) {
         this.props.onSelectionChange(selection);
       } else {
-        console.log('skipped');
+        this.props.onSelectionChange(null);
       }
+    } else {
+      this.props.onSelectionChange(null);
     }
   }
 
@@ -53,6 +55,7 @@ class SelectionDetector extends React.Component {
 class HighlightExample extends React.Component {
   state = {
     selected: null,
+    selection: null,
     html: ''
   }
 
@@ -64,8 +67,8 @@ class HighlightExample extends React.Component {
     this.setMarkers();
   }
 
-  handleSelectionChange = (sel) => {
-    console.log('selchange', sel)
+  handleSelectionChange = (selection) => {
+    this.setState({ selection });
   }
 
   handleMarkerClick = (ref) => {
@@ -146,6 +149,7 @@ class HighlightExample extends React.Component {
   }
 
   render() {
+    const { selection } = this.state;
     return (
       <div>
         <SelectionDetector onSelectionChange={this.handleSelectionChange}>
@@ -153,7 +157,7 @@ class HighlightExample extends React.Component {
           </div>
         </SelectionDetector>
         <button onClick={this.handleClear}>Clear</button>
-        <button onClick={this.handleHighlight}>Highlight</button>
+        <button onClick={this.handleHighlight} disabled={!selection}>Highlight</button>
         <button onClick={this.handleCopyFromEditor}>Copy from editor</button>
         <button onClick={this.handleCopyToEditor}>Copy to editor</button>
         <div>
